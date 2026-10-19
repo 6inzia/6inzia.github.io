@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinzia · ML Engineer</title>
+<meta name="description" content="Cinzia — AI / Machine Learning Engineer, Applied AI. Computer vision, generative AI and real-time ML systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05040b;
+    --surface: rgba(255, 255, 255, 0.035);
+    --surface-hover: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #f0f2f6;
+    --muted: #9aa1ad;
+    --accent: #a855f7;
+    --accent-light: #d8b4fe;
+    --accent-2: #ec4899;
+    --eye: #7dd3fc;
+    --radius: 20px;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: min(1100px, 100% - 32px); margin-inline: auto; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(5, 4, 11, 0.6);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s;
+  }
+  nav.scrolled { border-color: var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 0 12px var(--accent); }
+  .links { display: flex; gap: 28px; font-weight: 500; font-size: .95rem; }
+  .links a { color: var(--muted); transition: color .2s; }
+  .links a:hover { color: var(--text); }
+  @media (max-width: 720px) { .links { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 100vh; min-height: 100svh;
+    display: grid; place-items: center; text-align: center;
+    padding: 110px 16px 80px; overflow: hidden;
+  }
+  #stars { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .glow {
+    position: absolute; left: 50%; bottom: -35vh; transform: translateX(-50%);
+    width: 1200px; max-width: 160vw; height: 80vh; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(236, 72, 153, .45), transparent 45%),
+      radial-gradient(ellipse at 50% 55%, rgba(168, 85, 247, .55), transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(91, 33, 182, .45), transparent 72%);
+    filter: blur(30px);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: .75; transform: translateX(-50%) scale(1.05); } }
+  .hero-content { position: relative; z-index: 2; max-width: 820px; }
+
+  #avatar {
+    width: 200px; height: 200px; margin: 0 auto 28px; position: relative;
+    perspective: 700px; cursor: pointer; animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 50% { transform: translateY(-8px); } }
+  #avatar::after {
+    content: ""; position: absolute; left: 50%; bottom: -26px; transform: translateX(-50%);
+    width: 140px; height: 16px; border-radius: 50%;
+    background: rgba(168, 85, 247, .45); filter: blur(12px);
+  }
+  .avatar-tilt { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; position: relative; }
+  /* Click: the ring lights up */
+  .avatar-tilt::before {
+    content: ""; position: absolute; inset: -4px; border-radius: 50%; pointer-events: none; opacity: 0;
+    box-shadow:
+      0 0 0 3px rgba(240, 171, 252, .9),
+      0 0 30px 8px rgba(216, 180, 254, .9),
+      0 0 80px 24px rgba(168, 85, 247, .7),
+      0 0 140px 50px rgba(236, 72, 153, .35);
+  }
+  #avatar.happy .avatar-tilt::before { animation: ringGlow 1.1s ease-out; }
+  @keyframes ringGlow {
+    0% { opacity: 0; transform: scale(.96); }
+    25% { opacity: 1; transform: scale(1.03); }
+    100% { opacity: 0; transform: scale(1); }
+  }
+  .avatar-ring {
+    width: 100%; height: 100%; border-radius: 50%; padding: 4px; position: relative;
+    background: conic-gradient(from var(--spin, 0deg), #f0abfc, var(--accent), #6d28d9, var(--accent-2), #f0abfc);
+    box-shadow: 0 0 40px rgba(168, 85, 247, .55), 0 0 90px rgba(236, 72, 153, .25);
+    animation: spin 6s linear infinite;
+  }
+  @property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  @keyframes spin { to { --spin: 360deg; } }
+  .avatar-ring img {
+    width: 100%; height: 100%; border-radius: 50%; display: block;
+    object-fit: cover; object-position: 50% 28%;
+    border: 3px solid var(--bg); background: #1d1c21;
+  }
+  .avatar-shine {
+    position: absolute; inset: 7px; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle at var(--sx, 30%) var(--sy, 25%), rgba(255,255,255,.28), transparent 45%);
+    mix-blend-mode: soft-light;
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.05;
+    font-weight: 800; letter-spacing: -0.04em; margin-bottom: 18px;
+  }
+  .grad {
+    background: linear-gradient(90deg, #fff 0%, var(--accent-light) 50%, #f9a8d4 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .subtitle { font-size: clamp(1.05rem, 2.4vw, 1.35rem); color: var(--muted); max-width: 640px; margin: 0 auto 34px; }
+  .typed { color: var(--text); font-family: var(--mono); font-size: .95em; }
+  .typed::after { content: "▍"; color: var(--accent); animation: caret 1s steps(1) infinite; margin-left: 2px; }
+  @keyframes caret { 50% { opacity: 0; } }
+
+  .btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: .98rem;
+    transition: transform .2s, box-shadow .2s, background .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: #fff; color: #0b0820; box-shadow: 0 0 0 0 rgba(168, 85, 247, .6); }
+  .btn-primary:hover { box-shadow: 0 0 30px 4px rgba(168, 85, 247, .55); }
+  .btn-ghost { border: 1px solid var(--border); background: rgba(255,255,255,.04); }
+  .btn-ghost:hover { background: rgba(255,255,255,.09); }
+
+  .scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 2; color: var(--muted); font-size: .8rem; letter-spacing: .15em; text-transform: uppercase; animation: bob 2s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translate(-50%, 6px); } }
+
+  /* ---------- Sections ---------- */
+  section.block { padding: 110px 0; position: relative; }
+  .eyebrow { font-family: var(--mono); color: var(--accent-light); font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 40px; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    position: relative; overflow: hidden; transition: background .3s, border-color .3s, transform .3s;
+  }
+  .card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(168, 85, 247, .16), transparent 60%);
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover { border-color: rgba(168, 85, 247, .35); }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+  .about .card { padding: 32px; }
+  .about p { color: #c9ced6; margin-bottom: 14px; }
+  .about p:last-child { margin-bottom: 0; }
+  .about strong { color: var(--text); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .chip { font-size: .85rem; padding: 6px 12px; border-radius: 999px; background: rgba(168, 85, 247, .12); border: 1px solid rgba(168, 85, 247, .25); color: var(--accent-light); }
+  .card h3 { font-size: 1.05rem; margin-bottom: 14px; }
+  .card h3 + .chips { margin-bottom: 22px; }
+  @media (max-width: 820px) { .about { grid-template-columns: 1fr; } }
+
+  /* Projects */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: -16px 0 28px; }
+  .filter {
+    font: inherit; font-size: .9rem; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+    color: var(--muted); background: transparent; border: 1px solid var(--border); transition: all .2s;
+  }
+  .filter:hover { color: var(--text); }
+  .filter.active { color: #0b0820; background: var(--accent-light); border-color: var(--accent-light); font-weight: 600; }
+  .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 20px; }
+  .project { padding: 26px; display: flex; flex-direction: column; gap: 12px; }
+  .project.hidden { display: none; }
+  .project .tag { font-family: var(--mono); font-size: .75rem; color: var(--accent-light); }
+  .project h4 { font-size: 1.2rem; line-height: 1.3; }
+  .project p { color: var(--muted); font-size: .95rem; flex: 1; }
+  .points { list-style: none; color: var(--muted); font-size: .92rem; flex: 1; display: grid; gap: 6px; align-content: start; }
+  .points li { position: relative; padding-left: 16px; }
+  .points li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .stack-line { font-family: var(--mono); font-size: .75rem; color: var(--accent-light); opacity: .85; padding-top: 12px; border-top: 1px solid var(--border); }
+  .project .meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: .85rem; font-weight: 500; }
+  .project .meta a {
+    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border);
+    background: rgba(255,255,255,.04); color: var(--text); transition: all .2s;
+  }
+  .project .meta a:hover { border-color: var(--accent); color: var(--accent-light); box-shadow: 0 0 14px rgba(168, 85, 247, .35); }
+  /* Buttons stay hidden until a link is filled in href="" */
+  .project .meta a[href=""] { display: none; }
+  .project .meta:not(:has(a:not([href=""]))) { display: none; }
+
+  /* Experience */
+  .timeline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .tl-title { font-family: var(--mono); font-size: .85rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px; }
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), rgba(168, 85, 247, .05)); }
+  .tl-item { position: relative; margin-bottom: 30px; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent); box-shadow: 0 0 10px var(--accent);
+  }
+  .tl-date { font-family: var(--mono); font-size: .8rem; color: var(--accent-light); }
+  .tl-item h4 { font-size: 1.08rem; margin: 2px 0; }
+  .tl-org { color: var(--text); opacity: .75; font-size: .95rem; }
+  .tl-item p { color: var(--muted); font-size: .92rem; margin-top: 6px; }
+  @media (max-width: 820px) { .timeline-grid { grid-template-columns: 1fr; } }
+
+  /* Contact */
+  .contact { text-align: center; padding: 70px 24px; }
+  .contact h2 { margin-bottom: 14px; }
+  .contact p { color: var(--muted); margin-bottom: 30px; font-size: 1.1rem; }
+  .socials { display: flex; justify-content: center; gap: 12px; margin-top: 26px; }
+  .social { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); transition: all .2s; }
+  .social:hover { border-color: var(--accent); box-shadow: 0 0 18px rgba(168, 85, 247, .5); transform: translateY(-2px); }
+  .social svg { width: 20px; height: 20px; fill: var(--text); }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 40px 0 50px; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo"><span class="logo-dot"></span>Cinzia</a>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <canvas id="stars"></canvas>
+  <div class="glow"></div>
+
+  <div class="hero-content">
+    <!-- Avatar: tilts in 3D toward the mouse -->
+    <div id="avatar" role="img" aria-label="Cinzia's memoji">
+      <div class="avatar-tilt">
+        <div class="avatar-ring">
+          <img src="memoji.jpg" alt="">
+          <div class="avatar-shine"></div>
+        </div>
+      </div>
+    </div>
+
+    <h1><span class="grad">Cinzia</span></h1>
+    <p class="subtitle">
+      AI / Machine Learning Engineer building <span class="typed" id="typed">computer vision</span>
+    </p>
+    <div class="btns">
+      <a href="#contact" class="btn btn-primary">Contact me</a>
+      <a href="cv_cinzia.pdf" class="btn btn-ghost" download="cv_cinzia.pdf">Download CV ↓</a>
+    </div>
+  </div>
+
+  <a href="#about" class="scroll-hint">Scroll</a>
+</header>
+
+<main>
+  <!-- ================= ABOUT ================= -->
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="eyebrow reveal">01 · About me</div>
+      <h2 class="reveal">From experimentation<br>to <span class="grad">production.</span></h2>
+
+      <div class="about">
+        <div class="card reveal">
+          <p>I am an <strong>AI / Machine Learning Engineer</strong> focused on building and industrializing robust AI systems, from experimentation to production. Based in <strong>Paris</strong>.</p>
+          <p>At <strong>Framatome</strong>, I worked on the end-to-end development of an <strong>industrial computer vision system for real-time zirconium defect detection</strong>, from dataset labeling and YOLOv8 training to an <strong>embedded iPad application</strong> used by field experts on the production line. I also conducted R&amp;D on <strong>diffusion models for synthetic defect generation</strong>, and on <strong>generative AI, Transformers and LLMs</strong>.</p>
+          <p>I have a strong background in applied mathematics, optimization, statistical modeling and deep learning, with a <strong>Double Master's Degree in Statistical Engineering &amp; Data Science</strong> from <strong>ISUP &amp; Sorbonne University</strong>.</p>
+          <p>I enjoy translating complex technical and operational constraints into scalable, reliable AI solutions, with a strong focus on measurable performance and real-world impact. I'm especially interested in high-impact AI applications across healthcare, security, finance and decision systems.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Research interests</h3>
+          <div class="chips">
+            <span class="chip">Foundation Models &amp; GenAI</span>
+            <span class="chip">Computer Vision</span>
+            <span class="chip">Reasoning &amp; Interpretability</span>
+            <span class="chip">Robustness &amp; Evaluation</span>
+            <span class="chip">AI Agents</span>
+          </div>
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Python</span>
+            <span class="chip">C++</span>
+            <span class="chip">SQL</span>
+            <span class="chip">PyTorch</span>
+            <span class="chip">JAX</span>
+            <span class="chip">YOLO</span>
+            <span class="chip">Transformers</span>
+            <span class="chip">Diffusion Models</span>
+            <span class="chip">CUDA</span>
+            <span class="chip">Docker</span>
+            <span class="chip">MLflow</span>
+            <span class="chip">CI/CD</span>
+            <span class="chip">Azure</span>
+            <span class="chip">GCP</span>
+            <span class="chip">Git</span>
+            <span class="chip">Linux</span>
+            <span class="chip">SLURM</span>
+            <span class="chip">NVIDIA V100</span>
+            <span class="chip">Label Studio</span>
+            <span class="chip">Scikit-learn</span>
+            <span class="chip">NumPy</span>
+            <span class="chip">Pandas</span>
+          </div>
+          <h3>Languages</h3>
+          <div class="chips">
+            <span class="chip">French · Native</span>
+            <span class="chip">English · C2</span>
+            <span class="chip">Spanish · B2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="eyebrow reveal">02 · Projects</div>
+      <h2 class="reveal">Things I've <span class="grad">built.</span></h2>
+
+      <div class="filters reveal" id="filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="cv">Computer Vision</button>
+        <button class="filter" data-filter="genai">Generative AI</button>
+        <button class="filter" data-filter="mlops">MLOps</button>
+        <button class="filter" data-filter="ml">ML &amp; Optimization</button>
+        <button class="filter" data-filter="hpc">Parallel Computing</button>
+      </div>
+
+      <!-- To add a project: copy an <article> block and set data-tags -->
+      <div class="projects">
+        <article class="card project reveal" data-tags="cv mlops">
+          <span class="tag">Framatome</span>
+          <h4>Real-time zirconium defect detection</h4>
+          <ul class="points">
+            <li>Full industrial dataset labeling with Label Studio</li>
+            <li>CNNs and YOLOv8 for visual inspection and object detection, evaluated with precision, recall and mAP, with iterative model improvement</li>
+            <li>Integrated into an embedded iPad app for real-time defect detection with the device camera</li>
+            <li>Decision-support tool used by field experts, built in close collaboration with operators at the end of the production line</li>
+          </ul>
+          <div class="stack-line">PyTorch · YOLOv8 · CNN · Label Studio · NVIDIA V100 · SLURM</div>
+        </article>
+
+        <article class="card project reveal" data-tags="genai cv">
+          <span class="tag">Framatome · R&amp;D</span>
+          <h4>Diffusion models for synthetic defect generation</h4>
+          <ul class="points">
+            <li>Study and implementation of diffusion models for data augmentation</li>
+            <li>Generative models to synthesize realistic defects</li>
+            <li>JAX for optimization and differentiable computation</li>
+          </ul>
+          <div class="stack-line">JAX · Diffusion Models · Generative AI</div>
+        </article>
+
+        <article class="card project reveal" data-tags="genai">
+          <span class="tag">Framatome · R&amp;D</span>
+          <h4>Deep learning &amp; LLM research</h4>
+          <ul class="points">
+            <li>R&amp;D on generative AI, Transformers and Large Language Models</li>
+            <li>Weekly in-depth technical presentations on the theory and applied mathematics behind deep learning architectures and generative models such as DALL·E</li>
+            <li>Embeddings and vector representations</li>
+          </ul>
+          <div class="stack-line">Transformers · LLMs · Embeddings</div>
+        </article>
+
+        <article class="card project reveal" data-tags="ml">
+          <span class="tag">Academic project</span>
+          <h4>Bike rental demand forecasting (London)</h4>
+          <ul class="points">
+            <li>Hourly demand over 2 years (~17k observations)</li>
+            <li>Calendar and weather feature engineering, ACF/PACF analysis and stationarity assessment</li>
+            <li>Benchmarked GLM, SARIMA, GAM, Random Forest, XGBoost, MLP and Prophet with a temporal train/test split</li>
+            <li>Best model: XGBoost (RMSE ≈ 373), plus EWA model aggregation for more robust, stable predictions</li>
+          </ul>
+          <div class="stack-line">Python · XGBoost · SARIMA · Prophet · Time Series</div>
+          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+        </article>
+
+        <article class="card project reveal" data-tags="ml">
+          <span class="tag">Academic project</span>
+          <h4>Online convex optimization &amp; variance reduction</h4>
+          <ul class="points">
+            <li>Implemented and compared GD, SGD, Projected GD, AdaGrad, Mirror Descent and Online Newton Step</li>
+            <li>Implemented SVRG (Johnson &amp; Zhang, NeurIPS 2013)</li>
+            <li>Convergence analysis in convex vs strongly convex settings</li>
+            <li>Applied to linear SVM classification on high-dimensional image data, benchmarking convergence speed vs computational cost</li>
+          </ul>
+          <div class="stack-line">Python · NumPy · Convex Optimization</div>
+          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+        </article>
+
+        <article class="card project reveal" data-tags="ml">
+          <span class="tag">Academic project</span>
+          <h4>Multi-model vehicle classification</h4>
+          <ul class="points">
+            <li>End-to-end supervised pipeline on a multi-class vehicle dataset (846 samples, 18 features)</li>
+            <li>ANOVA feature selection, normalization and PCA</li>
+            <li>Benchmarked Logistic Regression, KNN, LDA/QDA, SVM, Decision Trees, MLP and ensembles (Bagging, Random Forest, Gradient Boosting)</li>
+            <li>GridSearchCV with 10-fold cross-validation, learning curves for bias–variance analysis</li>
+          </ul>
+          <div class="stack-line">Python · Scikit-learn · Pandas · NumPy · Matplotlib</div>
+          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+        </article>
+
+        <article class="card project reveal" data-tags="genai">
+          <span class="tag">Academic project</span>
+          <h4>Generative models: research review</h4>
+          <ul class="points">
+            <li>Critical analysis and presentation of a research article on generative modeling</li>
+          </ul>
+          <div class="stack-line">Generative Models · Research</div>
+          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+        </article>
+
+        <article class="card project reveal" data-tags="hpc">
+          <span class="tag">Academic project</span>
+          <h4>Parallel computing: Conway's Game of Life</h4>
+          <ul class="points">
+            <li>Parallel implementation of a cellular automaton simulation</li>
+            <li>Performance benchmarking and scalability analysis</li>
+          </ul>
+          <div class="stack-line">Parallel Computing · HPC</div>
+          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="eyebrow reveal">03 · Experience</div>
+      <h2 class="reveal">The <span class="grad">journey</span> so far.</h2>
+
+      <div class="timeline-grid">
+        <div class="reveal">
+          <div class="tl-title">Work experience</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <h4>AI Systems Engineer</h4>
+              <div class="tl-org">Framatome, DTI · La Défense</div>
+              <p>End-to-end development of an industrial computer vision system for real-time zirconium defect detection, from dataset labeling and YOLOv8 training to an embedded iPad app used by field experts. R&amp;D on diffusion models for synthetic defect generation, generative AI, Transformers and LLMs.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="tl-title">Education</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-date">2022 – 2024</div>
+              <h4>Double Master's Degree, Statistical Engineering &amp; Data Science</h4>
+              <div class="tl-org">ISUP &amp; Sorbonne University · Paris</div>
+              <p>Machine learning &amp; deep learning, advanced statistics, probability &amp; optimization, computer vision.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="card contact reveal">
+        <div class="eyebrow">04 · Contact</div>
+        <h2>Let's <span class="grad">talk.</span></h2>
+        <p>Open to AI / ML Engineer opportunities in computer vision &amp; generative AI.</p>
+        <a href="mailto:tiinta@hotmail.fr" class="btn btn-primary">Send me an email 👋</a>        <div class="socials">
+          <a class="social" href="https://github.com/6inzia" aria-label="GitHub" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          </a>
+          <a class="social" href="mailto:tiinta@hotmail.fr" aria-label="Email">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5v2.24z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> Cinzia</footer>
+
+<script>
+(() => {
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Avatar follows the pointer ---------- */
+  const bot = document.getElementById("avatar");
+  const tilt = bot.querySelector(".avatar-tilt");
+  const shine = bot.querySelector(".avatar-shine");
+
+  let target = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+  let lastMove = 0;
+
+  function aimAt(clientX, clientY) {
+    const r = bot.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const clamp = v => Math.max(-1, Math.min(1, v));
+    target.x = clamp((clientX - cx) / (innerWidth / 2));
+    target.y = clamp((clientY - cy) / (innerHeight / 2));
+    lastMove = performance.now();
+  }
+  addEventListener("mousemove", e => aimAt(e.clientX, e.clientY));
+  addEventListener("touchmove", e => aimAt(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+
+  function animateBot(t) {
+    // When idle for a while, the robot looks around on its own
+    if (t - lastMove > 3000) {
+      target.x = Math.sin(t / 1600) * 0.6;
+      target.y = Math.sin(t / 2300) * 0.3;
+    }
+    cur.x += (target.x - cur.x) * 0.08;
+    cur.y += (target.y - cur.y) * 0.08;
+    const { x, y } = cur;
+    tilt.style.transform = `rotateY(${x * 22}deg) rotateX(${-y * 16}deg) translate(${x * 6}px, ${y * 4}px)`;
+    shine.style.setProperty("--sx", `${50 - x * 30}%`);
+    shine.style.setProperty("--sy", `${40 - y * 25}%`);
+    requestAnimationFrame(animateBot);
+  }
+  if (!reduceMotion) requestAnimationFrame(animateBot);
+
+  // Click on the avatar: the ring lights up
+  bot.addEventListener("click", () => {
+    bot.classList.remove("happy");
+    void bot.offsetWidth; // restart the animation on repeated clicks
+    bot.classList.add("happy");
+  });
+  bot.addEventListener("animationend", e => {
+    if (e.animationName === "ringGlow") bot.classList.remove("happy");
+  });
+
+  /* ---------- Starfield ---------- */
+  const canvas = document.getElementById("stars");
+  const ctx = canvas.getContext("2d");
+  let stars = [];
+  function resize() {
+    const dpr = devicePixelRatio || 1;
+    canvas.width = canvas.offsetWidth * dpr;
+    canvas.height = canvas.offsetHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(canvas.offsetWidth * canvas.offsetHeight / 9000);
+    stars = Array.from({ length: n }, () => ({
+      x: Math.random() * canvas.offsetWidth,
+      y: Math.random() * canvas.offsetHeight,
+      r: Math.random() * 1.3 + 0.2,
+      s: Math.random() * 0.002 + 0.0005,
+      o: Math.random() * Math.PI * 2,
+      d: Math.random() * 0.6 + 0.2
+    }));
+  }
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+    for (const s of stars) {
+      const a = 0.35 + 0.65 * Math.abs(Math.sin(t * s.s + s.o));
+      ctx.globalAlpha = a;
+      ctx.fillStyle = s.r > 1.1 ? "#e9d5ff" : "#ffffff";
+      ctx.beginPath();
+      ctx.arc(s.x - cur.x * 12 * s.d, s.y - cur.y * 8 * s.d, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (!reduceMotion) requestAnimationFrame(drawStars);
+  }
+  resize();
+  addEventListener("resize", resize);
+  requestAnimationFrame(drawStars);
+
+  /* ---------- Typing effect ---------- */
+  const words = ["computer vision", "generative AI", "real-time ML systems", "robust AI"];
+  const typed = document.getElementById("typed");
+  if (!reduceMotion) {
+    let w = 0, i = words[0].length, deleting = true;
+    (function tick() {
+      const word = words[w];
+      typed.textContent = word.slice(0, i);
+      if (deleting) {
+        i--;
+        if (i < 0) { deleting = false; w = (w + 1) % words.length; i = 0; }
+      } else {
+        i++;
+        if (i > words[w].length) { deleting = true; return setTimeout(tick, 1800); }
+      }
+      setTimeout(tick, deleting ? 40 : 85);
+    })();
+  }
+
+  /* ---------- Card spotlight following the mouse ---------- */
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousemove", e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    });
+  });
+
+  /* ---------- Project filters ---------- */
+  const buttons = document.querySelectorAll(".filter");
+  buttons.forEach(btn => btn.addEventListener("click", () => {
+    buttons.forEach(b => b.classList.toggle("active", b === btn));
+    const f = btn.dataset.filter;
+    document.querySelectorAll(".project").forEach(p => {
+      p.classList.toggle("hidden", f !== "all" && !p.dataset.tags.split(" ").includes(f));
+    });
+  }));
+
+  /* ---------- Reveal on scroll + nav border ---------- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  const nav = document.getElementById("nav");
+  addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 20), { passive: true });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
