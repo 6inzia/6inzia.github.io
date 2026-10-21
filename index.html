@@ -220,6 +220,8 @@
     padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border);
     background: rgba(255,255,255,.04); color: var(--text); transition: all .2s;
   }
+  .project .meta a { display: inline-flex; align-items: center; gap: 6px; }
+  .project .meta svg { width: 14px; height: 14px; fill: currentColor; }
   .project .meta a:hover { border-color: var(--accent); color: var(--accent-light); box-shadow: 0 0 14px rgba(168, 85, 247, .35); }
   /* Buttons stay hidden until a link is filled in href="" */
   .project .meta a[href=""] { display: none; }
@@ -346,6 +348,7 @@
             <span class="chip">GCP</span>
             <span class="chip">Git</span>
             <span class="chip">Linux</span>
+            <span class="chip">R</span>
             <span class="chip">SLURM</span>
             <span class="chip">NVIDIA V100</span>
             <span class="chip">Label Studio</span>
@@ -375,9 +378,7 @@
         <button class="filter" data-filter="cv">Computer Vision</button>
         <button class="filter" data-filter="genai">Generative AI</button>
         <button class="filter" data-filter="mlops">MLOps</button>
-        <button class="filter" data-filter="ml">ML &amp; Optimization</button>
-        <button class="filter" data-filter="hpc">Parallel Computing</button>
-      </div>
+        <button class="filter" data-filter="ml">ML &amp; Optimization</button>      </div>
 
       <!-- To add a project: copy an <article> block and set data-tags -->
       <div class="projects">
@@ -432,47 +433,26 @@
           <span class="tag">Academic project</span>
           <h4>Online convex optimization &amp; variance reduction</h4>
           <ul class="points">
-            <li>Implemented and compared GD, SGD, Projected GD, AdaGrad, Mirror Descent and Online Newton Step</li>
-            <li>Implemented SVRG (Johnson &amp; Zhang, NeurIPS 2013)</li>
+            <li>Implemented from scratch in NumPy: GD, SGD, projected variants, Mirror Descent, Exponentiated Gradient, AdaGrad and Online Newton Step</li>
+            <li>Reproduced SVRG (Johnson &amp; Zhang, NeurIPS 2013) and tested a variant reusing the full gradient</li>
+            <li>Linear SVM on MNIST (digit 0 vs rest): about 1.4% training error, benchmarking convergence speed vs computational cost</li>
             <li>Convergence analysis in convex vs strongly convex settings</li>
-            <li>Applied to linear SVM classification on high-dimensional image data, benchmarking convergence speed vs computational cost</li>
           </ul>
           <div class="stack-line">Python · NumPy · Convex Optimization</div>
-          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+          <div class="meta"><a href="https://github.com/6inzia/online-convex-optimization-svrg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg> Code</a><a href="https://github.com/6inzia/online-convex-optimization-svrg/blob/main/report.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.3 5 7.8 4.5 4 4.5v13c3.8 0 6.3.5 8 2 1.7-1.5 4.2-2 8-2v-13c-3.8 0-6.3.5-8 2zm-1 10.3c-1.6-.8-3.6-1.2-5-1.3V6.6c2 .1 3.7.5 5 1.4v8.8zm7-1.3c-1.4.1-3.4.5-5 1.3V8c1.3-.9 3-1.3 5-1.4v8.9z"/></svg> Report</a></div>
         </article>
 
-        <article class="card project reveal" data-tags="ml">
+        <article class="card project reveal" data-tags="ml genai">
           <span class="tag">Academic project</span>
-          <h4>Multi-model vehicle classification</h4>
+          <h4>Probabilistic models: EM, Gibbs &amp; Metropolis-Hastings</h4>
           <ul class="points">
-            <li>End-to-end supervised pipeline on a multi-class vehicle dataset (846 samples, 18 features)</li>
-            <li>ANOVA feature selection, normalization and PCA</li>
-            <li>Benchmarked Logistic Regression, KNN, LDA/QDA, SVM, Decision Trees, MLP and ensembles (Bagging, Random Forest, Gradient Boosting)</li>
-            <li>GridSearchCV with 10-fold cross-validation, learning curves for bias–variance analysis</li>
+            <li>EM algorithm for Gaussian mixtures implemented from scratch, with model selection by BIC</li>
+            <li>Bayesian Gaussian mixture: Gibbs sampler with conjugate priors (data augmentation)</li>
+            <li>Random-walk Metropolis-Hastings: proposal tuning and tempering to escape local modes</li>
+            <li>Review of Pseudo-Extended MCMC (NeurIPS 2019) for multimodal posteriors</li>
           </ul>
-          <div class="stack-line">Python · Scikit-learn · Pandas · NumPy · Matplotlib</div>
-          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
-        </article>
-
-        <article class="card project reveal" data-tags="genai">
-          <span class="tag">Academic project</span>
-          <h4>Generative models: research review</h4>
-          <ul class="points">
-            <li>Critical analysis and presentation of a research article on generative modeling</li>
-          </ul>
-          <div class="stack-line">Generative Models · Research</div>
-          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
-        </article>
-
-        <article class="card project reveal" data-tags="hpc">
-          <span class="tag">Academic project</span>
-          <h4>Parallel computing: Conway's Game of Life</h4>
-          <ul class="points">
-            <li>Parallel implementation of a cellular automaton simulation</li>
-            <li>Performance benchmarking and scalability analysis</li>
-          </ul>
-          <div class="stack-line">Parallel Computing · HPC</div>
-          <div class="meta"><a href="" target="_blank" rel="noopener">Code ↗</a><a href="" target="_blank" rel="noopener">Report ↗</a></div>
+          <div class="stack-line">R · EM · MCMC · Bayesian Inference</div>
+          <div class="meta"><a href="https://github.com/6inzia/probabilistic-models-em-mcmc" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg> Code</a><a href="https://github.com/6inzia/probabilistic-models-em-mcmc/blob/main/report.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.3 5 7.8 4.5 4 4.5v13c3.8 0 6.3.5 8 2 1.7-1.5 4.2-2 8-2v-13c-3.8 0-6.3.5-8 2zm-1 10.3c-1.6-.8-3.6-1.2-5-1.3V6.6c2 .1 3.7.5 5 1.4v8.8zm7-1.3c-1.4.1-3.4.5-5 1.3V8c1.3-.9 3-1.3 5-1.4v8.9z"/></svg> Report</a></div>
         </article>
       </div>
     </div>
